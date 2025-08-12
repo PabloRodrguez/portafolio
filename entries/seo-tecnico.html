@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SEO técnico para sitios estáticos</title>
+
+  <style>
+    /* ====== Diseño base (solo HTML + CSS, sin dependencias) ====== */
+    :root{
+      --bg: #0b1020;
+      --panel: #0f172a;
+      --panel-2:#111827;
+      --text: #e5e7eb;
+      --muted:#9ca3af;
+      --brand: #a7f3d0;
+      --brand-2:#60a5fa;
+      --accent:#f472b6;
+      --good:#22c55e;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --link: #93c5fd;
+      --green: #34d399;
+      --blue: #60a5fa;
+      --serp-bg: #0c1328;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background: radial-gradient(1200px 800px at 10% -10%, #1f2937, transparent 60%),
+                  radial-gradient(900px 600px at 110% 10%, #111827, transparent 55%),
+                  radial-gradient(700px 600px at 50% 100%, #0b1020, #070b18 60%);
+      background-color: var(--bg);
+      line-height: 1.65;
+    }
+
+    .entry{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    .back{
+      display:inline-flex; gap:.5rem; align-items:center;
+      color:var(--muted); text-decoration:none; font-size:.95rem;
+      transition:opacity .2s ease; margin-bottom: 8px;
+    }
+    .back:hover{opacity:.8}
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    header.entry__header{ padding: 18px; }
+    .badge{
+      display:inline-block; padding: .25rem .6rem; border-radius: 999px;
+      background: linear-gradient(90deg, rgba(96,165,250,.18), rgba(167,243,208,.18));
+      border:1px solid rgba(96,165,250,.35);
+      color:#e0f2fe; font-weight:600; font-size:.8rem; letter-spacing:.3px;
+      margin-bottom:.6rem;
+    }
+    h1.entry__title{
+      margin: 6px 0 4px; line-height:1.15;
+      font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+      background: linear-gradient(90deg, #e5e7eb, #a7f3d0 40%, #93c5fd 85%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .entry__meta{
+      color:var(--muted); font-size:.95rem; display:flex; gap:.6rem; flex-wrap:wrap;
+    }
+
+    /* ====== Hero (SVG inline generado) ====== */
+    figure.hero{ margin:18px 0 28px; overflow:hidden; border-radius: calc(var(--radius) + 4px); border:1px solid rgba(255,255,255,.06)}
+    .hero svg{ display:block; width:100%; height:auto; background:#0a0f22; }
+
+    /* ====== Tabla de contenidos ====== */
+    nav.toc{
+      margin: 24px 0 28px; padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+    }
+    .toc strong{ display:block; margin-bottom:8px; color:#dbeafe; }
+    .toc ol{ margin:0; padding-left: 1.2rem; }
+    .toc a{ color:var(--link); text-decoration:none; }
+    .toc a:hover{ text-decoration:underline; }
+
+    /* ====== Contenido ====== */
+    .entry__content{
+      padding: 24px 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+    }
+    .entry__content h2{
+      margin: 28px 0 10px;
+      font-size: clamp(1.24rem, 2.2vw, 1.55rem);
+      color:#e9e9ff;
+    }
+    .entry__content p{ color:#e5e7eb; }
+    .entry__content a{ color: var(--link); }
+    .entry__content ul{ margin: .5rem 0 1rem 1.1rem; }
+    .note{
+      background: linear-gradient(180deg, rgba(34,197,94,.08), rgba(34,197,94,.05));
+      border:1px solid rgba(34,197,94,.35);
+      color:#dcfce7; padding: .75rem 1rem; border-radius: 12px;
+    }
+
+    pre{
+      margin: .8rem 0 1.2rem;
+      background: #0b1020; color:#dbeafe;
+      border:1px solid rgba(148,163,184,.25);
+      border-radius: 12px; padding: 14px;
+      overflow:auto; font-family: var(--mono); font-size:.92rem;
+    }
+    code{ font-family: var(--mono) }
+
+    .checklist{ list-style:none; padding-left:0; }
+    .checklist li{ margin:.5rem 0; padding-left:1.4rem; position:relative; }
+    .checklist li::before{
+      content:""; position:absolute; left:0; top:.32rem; width:.9rem; height:.9rem;
+      border-radius:3px; background: linear-gradient(120deg, var(--good), #34d399);
+      box-shadow: 0 0 0 2px rgba(34,197,94,.2);
+      mask: radial-gradient(circle at 50% 50%, transparent 32%, black 33%);
+    }
+
+    /* ====== Figuras generadas (SVG) ====== */
+    .inline-figure{
+      margin: 18px 0; border-radius: 14px; border:1px solid rgba(255,255,255,.06); overflow:hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+    }
+    .inline-figure svg{ display:block; width:100%; height:auto }
+
+    /* Breadcrumb demo */
+    .breadcrumbs{
+      display:flex; gap:.5rem; flex-wrap:wrap; font-size:.95rem; color:#cbd5e1;
+      padding:.5rem .8rem; border:1px dashed rgba(255,255,255,.08); border-radius:12px;
+    }
+    .breadcrumbs a{ color:#cbd5e1; text-decoration:none }
+    .breadcrumbs span{ opacity:.6 }
+
+    /* Responsivo */
+    @media (min-width: 900px){
+      header.entry__header, .entry__content, nav.toc{ padding: 24px 26px; }
+      .grid-2{ display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="entry" id="top">
+    <a class="back" href="../blog.html" aria-label="Volver al blog">← Volver al blog</a>
+
+    <header class="entry__header card">
+      <span class="badge">SEO</span>
+      <h1 class="entry__title">SEO técnico para sitios estáticos</h1>
+      <div class="entry__meta">
+        <time datetime="2025-05-22">22/05/2025</time>
+        <span>•</span>
+        <span>Por Pablo Rodriguez</span>
+      </div>
+
+      <!-- Imagen generada (SVG inline, sin dependencias) -->
+      <figure class="hero card" role="img" aria-label="Ilustración estilo SERP con título, URL y descripción">
+        <svg viewBox="0 0 1200 520" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#60a5fa" stop-opacity=".95"/>
+              <stop offset="100%" stop-color="#a7f3d0" stop-opacity=".95"/>
+            </linearGradient>
+            <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="16" result="b"/>
+              <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+          </defs>
+          <rect width="1200" height="520" fill="#0a0f22"/>
+
+          <!-- “Ventana SERP” -->
+          <g transform="translate(120,80)">
+            <rect x="0" y="0" width="960" height="360" rx="18" fill="var(--serp-bg)" stroke="rgba(255,255,255,.08)"/>
+            <!-- título -->
+            <rect x="36" y="40" width="680" height="26" rx="6" fill="#1e40af"/>
+            <text x="44" y="59" fill="#93c5fd" font-family="system-ui" font-size="18" font-weight="700">SEO técnico para sitios estáticos</text>
+            <!-- URL -->
+            <rect x="36" y="78" width="300" height="18" rx="4" fill="#052e1b"/>
+            <text x="44" y="92" fill="#86efac" font-family="system-ui" font-size="14">tusitio.com/guia/seo-estatico</text>
+            <!-- descripción -->
+            <rect x="36" y="112" width="860" height="16" rx="4" fill="rgba(255,255,255,.06)"/>
+            <rect x="36" y="134" width="820" height="16" rx="4" fill="rgba(255,255,255,.06)"/>
+            <rect x="36" y="156" width="520" height="16" rx="4" fill="rgba(255,255,255,.06)"/>
+
+            <!-- Rich result chips -->
+            <g transform="translate(36,208)">
+              <rect x="0" y="0" rx="10" ry="10" width="140" height="28" fill="rgba(255,255,255,.08)"/>
+              <text x="12" y="19" fill="#e5e7eb" font-family="system-ui" font-size="14">Breadcrumbs</text>
+              <rect x="154" y="0" rx="10" ry="10" width="160" height="28" fill="rgba(255,255,255,.08)"/>
+              <text x="166" y="19" fill="#e5e7eb" font-family="system-ui" font-size="14">Organization</text>
+              <rect x="328" y="0" rx="10" ry="10" width="120" height="28" fill="rgba(255,255,255,.08)"/>
+              <text x="340" y="19" fill="#e5e7eb" font-family="system-ui" font-size="14">Article</text>
+            </g>
+          </g>
+
+          <!-- Glow detail -->
+          <circle cx="1050" cy="120" r="90" fill="url(#g1)" opacity=".45" filter="url(#glow)"/>
+          <circle cx="160" cy="420" r="110" fill="url(#g1)" opacity=".25" filter="url(#glow)"/>
+        </svg>
+      </figure>
+    </header>
+
+    <nav class="toc card" aria-label="Tabla de contenidos">
+      <strong>Contenido</strong>
+      <ol>
+        <li><a href="#fundamentos">1. Fundamentos</a></li>
+        <li><a href="#metadatos">2. Metadatos esenciales</a></li>
+        <li><a href="#semantica">3. Semántica y encabezados</a></li>
+        <li><a href="#urls">4. URLs, canonicals y estructura</a></li>
+        <li><a href="#sitemap-robots">5. sitemap.xml y robots.txt</a></li>
+        <li><a href="#og-twitter">6. Open Graph y Twitter</a></li>
+        <li><a href="#structured">7. Datos estructurados (JSON-LD)</a></li>
+        <li><a href="#imagenes">8. Imágenes y ALT</a></li>
+        <li><a href="#hreflang">9. Internacionalización (hreflang)</a></li>
+        <li><a href="#interno">10. Enlazado interno y breadcrumbs</a></li>
+        <li><a href="#performance">11. Performance & CWV</a></li>
+        <li><a href="#checklist">Checklist</a></li>
+      </ol>
+    </nav>
+
+    <article class="entry__content card" id="contenido">
+      <section id="fundamentos">
+        <h2>1) Fundamentos</h2>
+        <p>Los sitios estáticos ofrecen HTML ya renderizado, lo que es ideal para SEO. La clave está en una buena estructura, metadatos correctos, contenido accesible y rendimiento sólido.</p>
+        <div class="note">Regla de oro: cada página debe responder claramente a una intención de búsqueda.</div>
+      </section>
+
+      <section id="metadatos">
+        <h2>2) Metadatos esenciales</h2>
+        <ul>
+          <li><strong>Title</strong>: ~50–60 caracteres, único y descriptivo.</li>
+          <li><strong>Meta description</strong>: ~150–160 caracteres, persuasiva.</li>
+          <li><strong>Viewport</strong>, <strong>charset</strong> y <strong>lang</strong> en HTML.</li>
+        </ul>
+<pre><code>&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1"&gt;
+  &lt;title&gt;SEO técnico para sitios estáticos | Tu Marca&lt;/title&gt;
+  &lt;meta name="description" content="Guía práctica para optimizar títulos, metadatos, estructura y datos enriqueci... "&gt;
+&lt;/head&gt;</code></pre>
+      </section>
+
+      <section id="semantica">
+        <h2>3) Semántica y encabezados</h2>
+        <p>Usa un solo <code>&lt;h1&gt;</code> por página y estructura el contenido con <code>h2</code>, <code>h3</code>, listas y elementos semánticos (<code>&lt;main&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;article&gt;</code>, <code>&lt;footer&gt;</code>).</p>
+<pre><code>&lt;main&gt;
+  &lt;h1&gt;SEO técnico para sitios estáticos&lt;/h1&gt;
+  &lt;section&gt;&lt;h2&gt;Metadatos&lt;/h2&gt;...&lt;/section&gt;
+  &lt;section&gt;&lt;h2&gt;Estructura&lt;/h2&gt;...&lt;/section&gt;
+&lt;/main&gt;</code></pre>
+      </section>
+
+      <section id="urls">
+        <h2>4) URLs, canonicals y estructura</h2>
+        <ul>
+          <li>Prefiere URLs limpias: <code>/blog/seo-estatico</code>.</li>
+          <li>Usa <strong>canonical</strong> para evitar duplicados.</li>
+          <li>Mantén consistencia con o sin slash final.</li>
+        </ul>
+<pre><code>&lt;link rel="canonical" href="https://tusitio.com/blog/seo-estatico"&gt;
+&lt;!-- Si publicas la misma página en /blog/seo-estatico/ y /blog/seo-estatico --&gt;</code></pre>
+
+        <div class="inline-figure" role="img" aria-label="Diagrama simple de estructura de URLs limpias">
+          <svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg">
+            <rect width="900" height="220" fill="rgba(255,255,255,.02)"/>
+            <g transform="translate(40,30)" font-family="system-ui" font-size="16" fill="#e5e7eb">
+              <text x="0" y="0">Estructura recomendada</text>
+              <rect x="0" y="18" width="820" height="1" fill="rgba(255,255,255,.1)"/>
+              <text x="0" y="60">/</text>
+              <text x="80" y="60">/blog/</text>
+              <text x="220" y="60">/blog/seo/</text>
+              <text x="410" y="60">/blog/seo/seo-estatico</text>
+            </g>
+          </svg>
+        </div>
+      </section>
+
+      <section id="sitemap-robots">
+        <h2>5) sitemap.xml y robots.txt</h2>
+        <p>Incluye todas las URLs indexables en <code>sitemap.xml</code> y referencia el sitemap desde <code>robots.txt</code>.</p>
+<pre><code>&lt;!-- sitemap.xml --&gt;
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"&gt;
+  &lt;url&gt;
+    &lt;loc&gt;https://tusitio.com/&lt;/loc&gt;
+    &lt;lastmod&gt;2025-05-20&lt;/lastmod&gt;
+  &lt;/url&gt;
+  &lt;url&gt;
+    &lt;loc&gt;https://tusitio.com/blog/seo-estatico&lt;/loc&gt;
+    &lt;lastmod&gt;2025-05-22&lt;/lastmod&gt;
+  &lt;/url&gt;
+&lt;/urlset&gt;
+
+# robots.txt
+User-agent: *
+Allow: /
+
+Sitemap: https://tusitio.com/sitemap.xml</code></pre>
+      </section>
+
+      <section id="og-twitter">
+        <h2>6) Open Graph y Twitter</h2>
+        <p>Mejora la apariencia al compartir. Para sitios estáticos, define estas metas en cada página.</p>
+<pre><code>&lt;!-- Open Graph --&gt;
+&lt;meta property="og:type" content="article"&gt;
+&lt;meta property="og:title" content="SEO técnico para sitios estáticos"&gt;
+&lt;meta property="og:description" content="Guía práctica de metadatos, estructura, datos enriquecidos y rendimiento."&gt;
+&lt;meta property="og:url" content="https://tusitio.com/blog/seo-estatico"&gt;
+&lt;meta property="og:image" content="https://tusitio.com/og/seo-estatico.jpg"&gt;
+
+&lt;!-- Twitter --&gt;
+&lt;meta name="twitter:card" content="summary_large_image"&gt;
+&lt;meta name="twitter:title" content="SEO técnico para sitios estáticos"&gt;
+&lt;meta name="twitter:description" content="Checklist accionable para sitios estáticos."&gt;
+&lt;meta name="twitter:image" content="https://tusitio.com/og/seo-estatico.jpg"&gt;</code></pre>
+      </section>
+
+      <section id="structured">
+        <h2>7) Datos estructurados (JSON-LD)</h2>
+        <p>Usa JSON-LD para ayudar a los motores de búsqueda a entender tu contenido.</p>
+<pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "SEO técnico para sitios estáticos",
+  "datePublished": "2025-05-22",
+  "author": {"@type":"Person","name":"Pablo Rodriguez"},
+  "publisher": {"@type":"Organization","name":"Binary Pixis"},
+  "mainEntityOfPage": "https://tusitio.com/blog/seo-estatico",
+  "image": ["https://tusitio.com/og/seo-estatico.jpg"]
+}
+&lt;/script&gt;</code></pre>
+
+<pre><code>&lt;script type="application/ld+json"&gt;
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {"@type":"ListItem","position":1,"name":"Blog","item":"https://tusitio.com/blog"},
+    {"@type":"ListItem","position":2,"name":"SEO","item":"https://tusitio.com/blog/seo"},
+    {"@type":"ListItem","position":3,"name":"SEO estático","item":"https://tusitio.com/blog/seo/seo-estatico"}
+  ]
+}
+&lt;/script&gt;</code></pre>
+      </section>
+
+      <section id="imagenes">
+        <h2>8) Imágenes y ALT</h2>
+        <ul>
+          <li>Nombres descriptivos: <code>seo-estatico-hero.jpg</code>.</li>
+          <li><code>alt</code> significativo (o vacío si decorativa).</li>
+          <li>Dimensiones fijas para evitar <strong>CLS</strong>.</li>
+        </ul>
+
+        <!-- Figura generada: previsualización de imagen con nombre y alt -->
+        <figure class="inline-figure" role="img" aria-label="Ejemplo de imagen con nombre descriptivo y atributos ALT, width y height">
+          <svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg">
+            <rect width="900" height="220" fill="rgba(255,255,255,.02)"/>
+            <g transform="translate(24,28)" font-family="system-ui" font-size="16" fill="#e5e7eb">
+              <rect x="0" y="0" width="260" height="160" rx="12" fill="rgba(96,165,250,.12)" stroke="rgba(96,165,250,.35)"/>
+              <text x="280" y="30">Archivo: <tspan fill="#a7f3d0">seo-estatico-hero.jpg</tspan></text>
+              <text x="280" y="62">&lt;img src="/img/seo-estatico-hero.jpg" alt="Portada guía SEO estático" width="1200" height="630"&gt;</text>
+            </g>
+          </svg>
+        </figure>
+      </section>
+
+      <section id="hreflang">
+        <h2>9) Internacionalización (hreflang)</h2>
+        <p>Si tienes versiones por idioma/región, declara alternates y canónica.</p>
+<pre><code>&lt;link rel="canonical" href="https://tusitio.com/es/seo-estatico"&gt;
+&lt;link rel="alternate" href="https://tusitio.com/es/seo-estatico" hreflang="es"&gt;
+&lt;link rel="alternate" href="https://tusitio.com/en/static-seo" hreflang="en"&gt;
+&lt;link rel="alternate" href="https://tusitio.com/" hreflang="x-default"&gt;</code></pre>
+      </section>
+
+      <section id="interno">
+        <h2>10) Enlazado interno y breadcrumbs</h2>
+        <p>Facilita la navegación y reparte autoridad temática con enlaces internos relevantes.</p>
+        <nav class="breadcrumbs" aria-label="Breadcrumb">
+          <a href="/blog">Blog</a> <span>/</span>
+          <a href="/blog/seo">SEO</a> <span>/</span>
+          <span aria-current="page">SEO estático</span>
+        </nav>
+      </section>
+
+      <section id="performance">
+        <h2>11) Performance & Core Web Vitals</h2>
+        <p>El rendimiento impacta en SEO: mejora LCP (servidor rápido y HTML liviano), evita CLS (espacios reservados) y cuida INP (menos JS bloqueante).</p>
+<pre><code>&lt;!-- Reservar espacio para imágenes y fuentes con width/height y font-display: swap --&gt;
+@font-face{ font-family:Inter; src:url("/fonts/Inter-400.woff2") format("woff2"); font-display: swap; }</code></pre>
+      </section>
+
+      <section id="checklist">
+        <h2>Checklist rápida</h2>
+        <ul class="checklist">
+          <li>Título único (50–60) + meta description (150–160)</li>
+          <li>Estructura semántica con un solo <code>h1</code></li>
+          <li>URLs limpias y consistentes + <code>rel="canonical"</code></li>
+          <li><code>sitemap.xml</code> y <code>robots.txt</code> publicados</li>
+          <li>Open Graph/Twitter definidos por página</li>
+          <li>JSON-LD: <em>Article</em>, <em>Breadcrumb</em>, <em>Organization</em></li>
+          <li>Imágenes con nombre descriptivo, <code>alt</code> y dimensiones</li>
+          <li><code>hreflang</code> para idiomas/regiones</li>
+          <li>Enlazado interno y breadcrumbs visibles</li>
+          <li>LCP/INP/CLS medidos y optimizados</li>
+        </ul>
+      </section>
+
+      <div class="footer" style="margin-top: 26px; padding: 14px 0; color:var(--muted); font-size:.9rem; border-top:1px dashed rgba(255,255,255,.08)">
+        © 2025 — Pablo Rodríguez.
+      </div>
+    </article>
+  </main>
+</body>
+</html>

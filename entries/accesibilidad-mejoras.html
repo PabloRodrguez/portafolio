@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Accesibilidad: pequeñas mejoras, gran impacto</title>
+
+  <style>
+    /* ====== Diseño base (solo HTML + CSS, sin dependencias) ====== */
+    :root{
+      --bg: #0b1020;
+      --panel: #0f172a;
+      --panel-2:#111827;
+      --text: #e5e7eb;
+      --muted:#9ca3af;
+      --brand: #a7f3d0;
+      --brand-2:#60a5fa;
+      --accent:#f472b6;
+      --good:#22c55e;
+      --warn:#f59e0b;
+      --danger:#ef4444;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(0,0,0,.35);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      --link: #93c5fd;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: var(--sans);
+      color: var(--text);
+      background: radial-gradient(1200px 800px at 10% -10%, #1f2937, transparent 60%),
+                  radial-gradient(900px 600px at 110% 10%, #111827, transparent 55%),
+                  radial-gradient(700px 600px at 50% 100%, #0b1020, #070b18 60%);
+      background-color: var(--bg);
+      line-height: 1.6;
+    }
+
+    /* ====== Skip link ====== */
+    .skip-link{
+      position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden;
+    }
+    .skip-link:focus{
+      left: 16px; top: 16px; width:auto; height:auto; padding:.6rem .9rem;
+      background:#111827; color:#fff; border:2px solid #fff; border-radius:12px; z-index:9999;
+    }
+
+    .entry{
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 32px 20px 80px;
+    }
+
+    .back{
+      display:inline-flex; gap:.5rem; align-items:center;
+      color:var(--muted); text-decoration:none; font-size:.95rem;
+      transition:opacity .2s ease; margin-bottom: 8px;
+    }
+    .back:hover{opacity:.8}
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+    }
+
+    header.entry__header{ padding: 18px; }
+    .badge{
+      display:inline-block; padding: .25rem .6rem; border-radius: 999px;
+      background: linear-gradient(90deg, rgba(96,165,250,.18), rgba(167,243,208,.18));
+      border:1px solid rgba(96,165,250,.35);
+      color:#e0f2fe; font-weight:600; font-size:.8rem; letter-spacing:.3px;
+      margin-bottom:.6rem;
+    }
+    h1.entry__title{
+      margin: 6px 0 4px; line-height:1.15;
+      font-size: clamp(1.9rem, 3.4vw, 2.7rem);
+      background: linear-gradient(90deg, #e5e7eb, #a7f3d0 40%, #93c5fd 85%);
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .entry__meta{
+      color:var(--muted); font-size:.95rem; display:flex; gap:.6rem; flex-wrap:wrap;
+    }
+
+    /* ====== Hero (SVG inline generado) ====== */
+    figure.hero{ margin:18px 0 28px; overflow:hidden; border-radius: calc(var(--radius) + 4px); border:1px solid rgba(255,255,255,.06)}
+    .hero svg{ display:block; width:100%; height:auto; background:#0a0f22; }
+
+    /* ====== Tabla de contenidos ====== */
+    nav.toc{
+      margin: 24px 0 28px; padding: 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+    }
+    .toc strong{ display:block; margin-bottom:8px; color:#dbeafe; }
+    .toc ol{ margin:0; padding-left: 1.2rem; }
+    .toc a{ color:var(--link); text-decoration:none; }
+    .toc a:hover{ text-decoration:underline; }
+
+    /* ====== Contenido ====== */
+    .entry__content{
+      padding: 24px 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.06);
+      border-radius: var(--radius);
+    }
+    .entry__content h2{
+      margin: 28px 0 10px;
+      font-size: clamp(1.24rem, 2.2vw, 1.55rem);
+      color:#e9e9ff;
+    }
+    .entry__content p{ color:#e5e7eb; }
+    .entry__content a{ color: var(--link); }
+    .entry__content ul{ margin: .5rem 0 1rem 1.1rem; }
+    .note{
+      background: linear-gradient(180deg, rgba(34,197,94,.08), rgba(34,197,94,.05));
+      border:1px solid rgba(34,197,94,.35);
+      color:#dcfce7; padding: .75rem 1rem; border-radius: 12px;
+    }
+
+    pre{
+      margin: .8rem 0 1.2rem;
+      background: #0b1020; color:#dbeafe;
+      border:1px solid rgba(148,163,184,.25);
+      border-radius: 12px; padding: 14px;
+      overflow:auto; font-family: var(--mono); font-size:.92rem;
+    }
+    code{ font-family: var(--mono) }
+
+    .checklist{ list-style:none; padding-left:0; }
+    .checklist li{ margin:.5rem 0; padding-left:1.4rem; position:relative; }
+    .checklist li::before{
+      content:""; position:absolute; left:0; top:.32rem; width:.9rem; height:.9rem;
+      border-radius:3px; background: linear-gradient(120deg, var(--good), #34d399);
+      box-shadow: 0 0 0 2px rgba(34,197,94,.2);
+      mask: radial-gradient(circle at 50% 50%, transparent 32%, black 33%);
+    }
+
+    /* ====== Figuras generadas (SVG) ====== */
+    .inline-figure{
+      margin: 18px 0; border-radius: 14px; border:1px solid rgba(255,255,255,.06); overflow:hidden;
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+    }
+    .inline-figure svg{ display:block; width:100%; height:auto }
+
+    /* ====== Elementos interactivos de ejemplo ====== */
+    .demo-controls{
+      display:grid; gap:10px; grid-template-columns: 1fr;
+      padding: 14px; border-radius: 12px; background:rgba(255,255,255,.02);
+      border:1px solid rgba(255,255,255,.06);
+    }
+    label{ display:block; font-weight:600; color:#e5e7eb; margin-bottom:.25rem; }
+    input[type="text"], input[type="email"], select, textarea{
+      width:100%; padding:.6rem .7rem; border-radius:10px;
+      background:#0b1020; color:#e5e7eb; border:1px solid rgba(148,163,184,.35);
+    }
+    input::placeholder, textarea::placeholder{ color:#94a3b8; }
+    button, .btn{
+      display:inline-block; padding:.6rem .9rem; border-radius:10px; border:1px solid rgba(255,255,255,.08);
+      background: linear-gradient(90deg, rgba(96,165,250,.2), rgba(167,243,208,.2));
+      color:#e5e7eb; font-weight:600; cursor:pointer; text-decoration:none;
+    }
+
+    /* Focus accesible */
+    :focus{ outline:none }
+    :focus-visible{
+      outline: 3px solid #f59e0b; outline-offset: 2px;
+      box-shadow: 0 0 0 4px rgba(245,158,11,.25);
+      border-radius: 10px;
+    }
+
+    /* Estado hover/active para demos */
+    .btn:hover{ filter:brightness(1.08) }
+    .btn:active{ transform: translateY(1px) }
+
+    /* Contraste demo chips */
+    .chip{ display:inline-flex; align-items:center; gap:.5rem; padding:.35rem .6rem; border-radius:999px; margin:.25rem .25rem 0 0; border:1px solid rgba(255,255,255,.08) }
+    .chip b{ font-variant-numeric: tabular-nums; }
+
+    /* Reducir movimiento si el usuario lo prefiere */
+    @media (prefers-reduced-motion: reduce){
+      *{ animation-duration:.01ms !important; animation-iteration-count:1 !important; transition:none !important; }
+    }
+
+    /* Responsivo */
+    @media (min-width: 900px){
+      header.entry__header, .entry__content, nav.toc{ padding: 24px 26px; }
+      .grid-2{ display:grid; grid-template-columns: 1fr 1fr; gap:18px; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#contenido">Saltar al contenido principal</a>
+
+  <main class="entry" id="top">
+    <a class="back" href="../blog.html" aria-label="Volver al blog">← Volver al blog</a>
+
+    <header class="entry__header card">
+      <span class="badge">Accesibilidad</span>
+      <h1 class="entry__title">Accesibilidad: pequeñas mejoras, gran impacto</h1>
+      <div class="entry__meta">
+        <time datetime="2025-06-30">30/06/2025</time>
+        <span>•</span>
+        <span>Por Pablo Rodriguez</span>
+      </div>
+
+      <!-- Imagen generada (SVG inline, sin dependencias) -->
+      <figure class="hero card" role="img" aria-label="Ilustración abstracta con íconos de accesibilidad y foco visible">
+        <svg viewBox="0 0 1200 520" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#60a5fa" stop-opacity=".95"/>
+              <stop offset="100%" stop-color="#a7f3d0" stop-opacity=".95"/>
+            </linearGradient>
+            <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#f472b6" stop-opacity=".9"/>
+              <stop offset="100%" stop-color="#60a5fa" stop-opacity=".9"/>
+            </linearGradient>
+            <filter id="blur" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur stdDeviation="18"/>
+            </filter>
+          </defs>
+          <rect width="1200" height="520" fill="#0a0f22"/>
+
+          <!-- blobs -->
+          <circle cx="190" cy="120" r="110" fill="url(#g1)" opacity=".45" filter="url(#blur)"/>
+          <circle cx="1040" cy="180" r="130" fill="url(#g2)" opacity=".45" filter="url(#blur)"/>
+          <circle cx="940" cy="430" r="120" fill="url(#g1)" opacity=".35" filter="url(#blur)"/>
+          <circle cx="300" cy="420" r="140" fill="url(#g2)" opacity=".25" filter="url(#blur)"/>
+
+          <!-- A11y badge -->
+          <g transform="translate(120,320)">
+            <rect x="0" y="-40" rx="14" ry="14" width="250" height="80" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)"/>
+            <text x="16" y="10" fill="#e5e7eb" font-family="system-ui" font-size="42" font-weight="700">A11y</text>
+            <text x="16" y="34" fill="#bfdbfe" font-family="system-ui" font-size="16">Semántica • Contraste • Teclado</text>
+          </g>
+
+          <!-- Foco visible -->
+          <g transform="translate(520,280)">
+            <rect x="0" y="-18" rx="10" ry="10" width="260" height="36" fill="rgba(255,255,255,.06)" stroke="rgba(255,255,255,.12)"/>
+            <rect x="-6" y="-24" rx="14" ry="14" width="272" height="48" fill="none" stroke="#f59e0b" stroke-width="3"/>
+            <rect x="-12" y="-30" rx="18" ry="18" width="284" height="60" fill="none" stroke="rgba(245,158,11,.25)" stroke-width="8"/>
+            <text x="16" y="6" fill="#e5e7eb" font-family="system-ui" font-size="16">Botón con foco visible</text>
+          </g>
+
+          <!-- Etiquetas -->
+          <g font-family="system-ui" font-size="16" fill="#e5e7eb" opacity=".9">
+            <rect x="870" y="70" width="250" height="36" rx="10" ry="10" fill="rgba(255,255,255,.06)"/>
+            <text x="884" y="94">Landmarks: &lt;main&gt; &lt;nav&gt;</text>
+            <rect x="880" y="410" width="230" height="36" rx="10" ry="10" fill="rgba(255,255,255,.06)"/>
+            <text x="894" y="434">Preferencias de movimiento</text>
+          </g>
+        </svg>
+      </figure>
+    </header>
+
+    <nav class="toc card" aria-label="Tabla de contenidos">
+      <strong>Contenido</strong>
+      <ol>
+        <li><a href="#por-que">1. ¿Por qué importa?</a></li>
+        <li><a href="#estructura">2. Semántica y estructura</a></li>
+        <li><a href="#alt">3. Texto alternativo</a></li>
+        <li><a href="#contraste">4. Contraste y uso del color</a></li>
+        <li><a href="#teclado">5. Teclado y foco visible</a></li>
+        <li><a href="#formularios">6. Formularios y mensajes</a></li>
+        <li><a href="#componentes">7. Componentes interactivos</a></li>
+        <li><a href="#preferencias">8. Preferencias del usuario</a></li>
+        <li><a href="#multimedia">9. Multimedia</a></li>
+        <li><a href="#checklist">Checklist</a></li>
+      </ol>
+    </nav>
+
+    <article class="entry__content card" id="contenido">
+      <section id="por-que">
+        <h2>1) ¿Por qué importa?</h2>
+        <p>La accesibilidad beneficia a todas las personas: usuarios con lector de pantalla, personas con baja visión, daltonismo, movilidad limitada, o que simplemente navegan con teclado o desde un móvil a pleno sol. Además, mejora SEO, calidad de código y usabilidad general.</p>
+        <div class="note">Objetivo: eliminar fricciones. Pequeñas mejoras suman un gran impacto.</div>
+      </section>
+
+      <section id="estructura">
+        <h2>2) Semántica y estructura</h2>
+        <p>Usa encabezados en orden (<code>h1 → h2 → h3</code>), landmarks (<code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code>) y listas reales.</p>
+<pre><code>&lt;main&gt;
+  &lt;h1&gt;Título de la página&lt;/h1&gt;
+  &lt;section&gt;
+    &lt;h2&gt;Sección&lt;/h2&gt;
+    &lt;p&gt;Contenido...&lt;/p&gt;
+  &lt;/section&gt;
+&lt;/main&gt;</code></pre>
+      </section>
+
+      <section id="alt">
+        <h2>3) Texto alternativo</h2>
+        <ul>
+          <li>Imágenes informativas: <code>alt</code> describe el propósito.</li>
+          <li>Decorativas: <code>alt=""</code> y/o <code>role="presentation"</code>.</li>
+          <li>Evita texto en imágenes cuando puedas usar HTML/CSS.</li>
+        </ul>
+
+        <!-- Figura generada: ejemplos de alt -->
+        <figure class="inline-figure" role="img" aria-label="Ejemplos de texto alternativo correcto y decorativo">
+          <svg viewBox="0 0 900 220" xmlns="http://www.w3.org/2000/svg">
+            <rect width="900" height="220" fill="rgba(255,255,255,.02)"/>
+            <g transform="translate(24,28)" font-family="system-ui" font-size="16" fill="#e5e7eb">
+              <rect x="0" y="0" width="410" height="160" rx="12" fill="rgba(96,165,250,.12)" stroke="rgba(96,165,250,.35)"/>
+              <text x="16" y="26">Informativa (con alt):</text>
+              <text x="16" y="54" fill="#bfdbfe">&lt;img src="grafico.png" alt="Ventas Q2 suben 15%"&gt;</text>
+
+              <rect x="440" y="0" width="410" height="160" rx="12" fill="rgba(167,243,208,.12)" stroke="rgba(167,243,208,.35)"/>
+              <text x="456" y="26">Decorativa (alt vacío):</text>
+              <text x="456" y="54" fill="#a7f3d0">&lt;img src="ornamento.svg" alt="" role="presentation"&gt;</text>
+            </g>
+          </svg>
+        </figure>
+      </section>
+
+      <section id="contraste">
+        <h2>4) Contraste y uso del color</h2>
+        <p>Asegura contraste suficiente (texto normal ≥ 4.5:1, grande ≥ 3:1). No uses solo color para transmitir significado; añade iconos, texto o estilos adicionales.</p>
+
+        <!-- Figura generada: barras de contraste -->
+        <figure class="inline-figure" role="img" aria-label="Comparativa de niveles de contraste entre combinaciones de color">
+          <svg viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg">
+            <rect width="900" height="240" fill="rgba(255,255,255,.02)"/>
+            <g transform="translate(40,30)" font-family="system-ui" font-size="16" fill="#e5e7eb">
+              <text x="0" y="0">Contraste (más es mejor)</text>
+
+              <text x="0" y="46">❌ Gris claro sobre gris</text>
+              <rect x="260" y="30" width="180" height="24" rx="6" fill="#9ca3af"/>
+              <text x="452" y="46" fill="#fca5a5">2.4:1</text>
+
+              <text x="0" y="106">✅ Azul sobre casi negro</text>
+              <rect x="260" y="90" width="380" height="24" rx="6" fill="#60a5fa"/>
+              <text x="652" y="106" fill="#86efac">7.2:1</text>
+
+              <text x="0" y="166">✅ Blanco sobre negro</text>
+              <rect x="260" y="150" width="420" height="24" rx="6" fill="#e5e7eb"/>
+              <text x="692" y="166" fill="#86efac">12.6:1</text>
+            </g>
+          </svg>
+        </figure>
+
+        <p class="chip" style="background:#0b1020;color:#e5e7eb;">Ejemplo: <b>12.6:1</b></p>
+        <p class="chip" style="background:#0b1020;color:#60a5fa;">Ejemplo: <b>7.2:1</b></p>
+        <p class="chip" style="background:#0b1020;color:#9ca3af;">Ejemplo: <b>2.4:1</b></p>
+      </section>
+
+      <section id="teclado">
+        <h2>5) Teclado y foco visible</h2>
+        <p>Todo elemento interactivo debe ser usable con teclado (Tab/Shift+Tab/Enter/Espacio). Asegura un foco <em>claramente visible</em>.</p>
+<pre><code>/* Foco consistente para todo elemento focusable */
+:focus-visible{
+  outline: 3px solid #f59e0b; outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(245,158,11,.25);
+}</code></pre>
+
+        <!-- Demostración de controles accesibles (estáticos) -->
+        <div class="demo-controls" aria-describedby="demo-teclado">
+          <div>
+            <label for="demo-busqueda">Búsqueda</label>
+            <input id="demo-busqueda" type="text" placeholder="Buscar..." />
+          </div>
+          <div>
+            <label for="demo-select">Categoría</label>
+            <select id="demo-select">
+              <option>Accesibilidad</option>
+              <option>Desarrollo</option>
+              <option>UI/UX</option>
+            </select>
+          </div>
+          <div>
+            <button class="btn" type="button">Enviar</button>
+          </div>
+        </div>
+        <p id="demo-teclado" class="note">Navega con Tab para ver el anillo de foco.</p>
+      </section>
+
+      <section id="formularios">
+        <h2>6) Formularios y mensajes</h2>
+        <ul>
+          <li>Relaciona <code>&lt;label&gt;</code> con <code>for</code> + <code>id</code>.</li>
+          <li>Añade <code>aria-describedby</code> para ayudas y errores.</li>
+          <li>Ofrece mensajes claros (texto y no solo color).</li>
+        </ul>
+<pre><code>&lt;label for="email"&gt;Correo&lt;/label&gt;
+&lt;input id="email" type="email" aria-describedby="help-email error-email"&gt;
+&lt;small id="help-email"&gt;Usa tu correo de trabajo.&lt;/small&gt;
+&lt;small id="error-email" role="alert"&gt;Formato no válido&lt;/small&gt;</code></pre>
+      </section>
+
+      <section id="componentes">
+        <h2>7) Componentes interactivos</h2>
+        <ul>
+          <li>Usa el elemento correcto: enlaces para navegación (<code>&lt;a&gt;</code>), botones para acciones (<code>&lt;button&gt;</code>).</li>
+          <li>No re-implementes controles nativos con <code>div</code> a menos que sea imprescindible.</li>
+        </ul>
+<pre><code>&lt;!-- Bien --&gt;
+&lt;button type="button"&gt;Abrir modal&lt;/button&gt;
+
+&lt;!-- Evitar --&gt;
+&lt;div role="button" tabindex="0"&gt;Abrir modal&lt;/div&gt;</code></pre>
+      </section>
+
+      <section id="preferencias">
+        <h2>8) Preferencias del usuario</h2>
+        <p>Respeta <code>prefers-reduced-motion</code> y evita parpadeos agresivos. Ofrece controles para pausar animaciones.</p>
+<pre><code>@media (prefers-reduced-motion: reduce){
+  * { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition:none !important; }
+}</code></pre>
+      </section>
+
+      <section id="multimedia">
+        <h2>9) Multimedia</h2>
+        <ul>
+          <li>Ofrece subtítulos/captions y, cuando sea posible, transcripciones.</li>
+          <li>Evita autoplay con sonido. Permite pausar/detener.</li>
+        </ul>
+<pre><code>&lt;video controls preload="metadata"&gt;
+  &lt;source src="/media/intro.webm" type="video/webm"&gt;
+  &lt;track kind="captions" src="/media/intro.es.vtt" srclang="es" label="Español"&gt;
+&lt;/video&gt;</code></pre>
+      </section>
+
+      <section id="checklist">
+        <h2>Checklist rápida</h2>
+        <ul class="checklist">
+          <li>Estructura semántica y orden de encabezados</li>
+          <li>Texto alternativo adecuado; decorativo con <code>alt=""</code></li>
+          <li>Contraste: 4.5:1 (texto normal) y 3:1 (texto grande)</li>
+          <li>Todo operable con teclado; foco visible claro</li>
+          <li>Formularios con <code>label</code>, ayudas y errores anunciables</li>
+          <li>Usar elementos nativos para interacción</li>
+          <li>Respetar <code>prefers-reduced-motion</code></li>
+          <li>Subtítulos/transcripciones para multimedia</li>
+        </ul>
+      </section>
+
+      <div class="footer" style="margin-top: 26px; padding: 14px 0; color:var(--muted); font-size:.9rem; border-top:1px dashed rgba(255,255,255,.08)">
+        © 2025 — Pablo Rodriguez.
+    </article>
+  </main>
+</body>
+</html>

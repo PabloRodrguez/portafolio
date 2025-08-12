@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+    <link rel="shortcut icon" href="./assets/img/logo.svg" type="image/x-icon">
+    <title>Portafolio -  Pablo Rodriguez</title>
+    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.1.2-web/css/all.min.css">
+    <link rel="stylesheet" href="./assets/fonts/poppins/poppins.css">
+    <link rel="stylesheet" href="./assets/css/reset.css">
+    <link rel="stylesheet" href="./assets/css/scroll.css">
+    <link rel="stylesheet" href="./assets/css/styles.css">
+    <link rel="stylesheet" href="./assets/css/responsive.css">
+</head>
+<body>
+    <div class="layout">
+        <aside class="layout__aside">
+            <section class="aside__user-info">
+                <div class="user-info__general">
+                    <div class="user-info__container-image">
+                        <img src="./assets/img/foto.jpg" alt="Imagen perfil de usuario" class="user-info__image">
+                    </div>
+                    <h2 class="user-info__name">Pablo Rodríguez</h2>
+                    <h3 class="user-info__job">Desarrollador Full Stack</h3>
+                </div>
+                <!-- Navegación -->
+                <nav class="layout__menu">
+                    <ul class="menu__list">
+                        <li class="menu__option">
+                            <a href="index.html" class="menu__link">
+                                <i class="menu__icon fa-solid fa-house"></i>
+                                <span class="menu__overlay">
+                                    Home
+                                </span>
+                            </a>
+                        </li>
+                        <li class="menu__option">
+                            <a href="sobre-mi.html" class="menu__link ">
+                                <i class="menu__icon fa-solid fa-user"></i>
+                                <span class="menu__overlay">
+                                    Sobre Mí
+                                </span>
+                            </a>
+                        </li>
+                        <li class="menu__option">
+                            <a href="estudios.html" class="menu__link ">
+                                <i class="menu__icon fa-solid fa-graduation-cap"></i>
+                                <span class="menu__overlay">
+                                    Estudios
+                                </span>
+                            </a>
+                        </li>
+                        <li class="menu__option">
+                            <a href="portfolio.html" class="menu__link menu__link--active">
+                                <i class="menu__icon fa-solid fa-briefcase"></i>
+                                <span class="menu__overlay">
+                                    Portafolio
+                                </span>
+                            </a>
+                        </li>
+                        <li class="menu__option">
+                            <a href="blog.html" class="menu__link">
+                                <i class="menu__icon fa-solid fa-book"></i>
+                                <span class="menu__overlay">
+                                    Blog
+                                </span>
+                            </a>
+                        </li>
+                        <li class="menu__option">
+                            <a href="contact.html" class="menu__link">
+                                <i class="menu__icon fa-solid fa-envelope"></i>
+                                <span class="menu__overlay">
+                                    Contacto
+                                </span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+                <!-- Redes Sociales -->
+                <div class="user-info__links">
+                    <ul class="links__social">
+                        <li class="social__option">
+                            <a href="https://www.youtube.com/@Jaycitom" class="social__link" >
+                                <i class="social__icon fa-brands fa-youtube"></i>
+                            </a>
+                        </li>
+                        <li class="social__option">
+                            <a href="https://www.linkedin.com/in/jaycitom/" class="social__link">
+                                <i class="social__icon fa-brands fa-linkedin">
+                                </i>
+                            </a>
+                        </li>
+                        <li class="social__option">
+                            <a href="https://www.instagram.com/jaycitom/" class="social__link">
+                                <i class="social__icon fa-brands fa-instagram">
+                                </i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Botón Curriculum -->
+                <div class="user-info__buttons">
+                    <a href="#" class="user-info__btn"> Descargar CV</a>
+                </div>
+                <!-- Pie de Página -->
+                <footer class="user-info__footer">
+                    &copy; <a href="https://pablorodriguez-portfolio.netlify.app/">2025 - Pablo Rodríguez</a>
+                </footer>
+            </section>
+        </aside>
+                <!-- Menu responsive -->
+            <div class="layout__menu-togle">
+                <i class="menu-togle__icon fa-solid fa-bars"></i>
+                <i class="menu-togle__icon fa-solid fa-xmark"></i>
+            </div>
+
+        <!-- Contenido Principal -->
+        <main class="layout__content">
+            <section class="content__page content__portfolio" >
+                <header class="portfolio__header">
+                    <h1 class="portfolio__title">Portafolio</h1>
+                </header>
+                <nav class="portfolio__navbar">
+                    <ul class="portfolio__menu">
+                        <li class="portfolio__option portfolio__option--active">
+                            <a href="#" class="portfolio__link" data-filter="todos" >Todos</a>
+                        </li>
+                        <li class="portfolio__option">
+                            <a href="#" class="portfolio__link" data-filter="proyectos" >Proyectos</a>
+                        </li>
+                        <li class="portfolio__option">
+                            <a href="#" class="portfolio__link " data-filter="freelance" >Freelance</a>
+                        </li>
+                        <li class="portfolio__option">
+                            <a href="#" class="portfolio__link" data-filter="web" >Web</a>
+                        </li>
+                    </ul>
+                </nav>
+                <section class="portfolio__gallery">
+                    <figure class="gallery__item" data-category="freelance, web">
+                        <div class="gallery__container-image">
+                            <a href="https://www.rivasybelmar.cl/" class="gallery__link">
+                                <img src="./assets/img/rivasybelmar.PNG" alt="Imagen del proyecto" class="gallery__image">
+                            </a>
+                        </div>
+                        <figcaption class="gallery__title">
+                            Página Web - Rivas Y Belmar
+                        </figcaption>
+                        <i class="gallery__icon fa-solid fa-video-camera"></i>
+                        <span class="gallery__category">Página webd</span>
+                    </figure>
+                    <figure class="gallery__item" data-category="freelance, proyectos, web">
+                        <div class="gallery__container-image">
+                            <a href="https://joshproduciendo.com/" class="gallery__link">
+                                <img src="./assets/img/jp.PNG" alt="Imagen del proyecto" class="gallery__image">
+                            </a>
+                        </div>
+                        <figcaption class="gallery__title">
+                            Pagina E-Commerce JoshProduciendo
+                        </figcaption>
+                        <i class="gallery__icon fa-solid fa-code"></i>
+                        <span class="gallery__category">Freelance</span>
+                    </figure>
+                    <figure class="gallery__item" data-category="proyectos">
+                        <div class="gallery__container-image">
+                            <a href="https://arkanoid-jaycitom-v2.netlify.app/" class="gallery__link">
+                                <img src="./assets/img/ark.png" alt="Imagen del proyecto" class="gallery__image">
+                            </a>
+                        </div>
+                        <figcaption class="gallery__title">
+                            Arkanoid
+                        </figcaption>
+                        <i class="gallery__icon fa-solid fa-code-commit"></i>
+                        <span class="gallery__category">Proyectos</span>
+                    </figure>
+                    <figure class="gallery__item" data-category="web, proyectos">
+                        <div class="gallery__container-image">
+                            <a href="https://farmacias-de-turno-jaycitom.netlify.app/" class="gallery__link">
+                                <img src="./assets/img/farmacies.JPG" alt="Imagen del proyecto" class="gallery__image">
+                            </a>
+                        </div>
+                        <figcaption class="gallery__title">
+                            Página Web Farmacias De turno
+                        </figcaption>
+                        <i class="gallery__icon fa-solid fa-video-camera"></i>
+                        <span class="gallery__category">Web</span>
+                    </figure>
+                    <figure class="gallery__item" data-category="freelance, proyectos">
+                        <div class="gallery__container-image">
+                            <a href="https://administrador-presupuestos-jaycitom.netlify.app/" class="gallery__link">
+                                <img src="./assets/img/gastos.JPG" alt="Imagen del proyecto" class="gallery__image">
+                            </a>
+                        </div>
+                        <figcaption class="gallery__title">
+                            Planificador de Gastos
+                        </figcaption>
+                        <i class="gallery__icon fa-solid fa-video-camera"></i>
+                        <span class="gallery__category">Proyectos</span>
+                    </figure>
+                    <figure class="gallery__item" data-category="freelance, proyectos, web">
+                        <div class="gallery__container-image">
+                            <a href="https://todolist-jaycitom.netlify.app/" class="gallery__link">
+                                <img src="./assets/img/todo.JPG" alt="Imagen del proyecto" class="gallery__image">
+                            </a>
+                        </div>
+                        <figcaption class="gallery__title">
+                            ToDo List
+                        </figcaption>
+                        <i class="gallery__icon fa-solid fa-video-camera"></i>
+                        <span class="gallery__category">Proyectos</span>
+                    </figure>
+                </section>
+            </section>  
+        </main>
+    </div>
+    <script src="./assets/js/main.js"></script>
+    <script src="./assets/js/filter.js"></script>
+        <script src="./assets/js/menu.js" defer></script>
+</body>
+</html>
