@@ -39,6 +39,7 @@
         border-radius: 0;
         grid-template-areas: 'content';
         grid-template-columns: 100%;
+        overflow-x: hidden;
     }
     .layout__menu-togle{
         z-index:1000;
